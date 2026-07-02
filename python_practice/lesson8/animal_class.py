@@ -5,6 +5,9 @@ class Animal:
     def go_sleep(self):
         print("Sleeping...")
 
+    def __str__(self):
+        return "Animal object"
+
     # def dog_sound(self):
     #     print("Grrr")
     #
@@ -28,7 +31,8 @@ dog = Dog()
 cat = Cat()
 unknown_animal = Animal()
 bug= Bug()
-
+print(dog)
+print(unknown_animal)
 dog.make_sound()
 cat.make_sound()
 unknown_animal.make_sound()

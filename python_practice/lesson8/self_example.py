@@ -29,6 +29,8 @@ class Nissan(Auto):
 
 
 
+
+
 y61 = Nissan(model="y61", color="green", engine="3.0", fuel_to_km=0.1)
 navara = Nissan(model="navara", color="red", engine="5.0")
 
