@@ -3,7 +3,7 @@ import sys
 import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent))
 
-from python_practice.lesson12.function import factorial
+from python_practice.lesson012.function import factorial
 
 class FactorialNegativeTests(unittest.TestCase):
 
