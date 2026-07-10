@@ -4,7 +4,7 @@ import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.parent))
 # print(sys.path)
 # print(pathlib.Path(__file__).parent.parent.parent)
-from python_practice.lesson12.function import some_function
+from python_practice.lesson012.function import some_function
 
 def sum_two_numbers(a, b):
     return a + b
