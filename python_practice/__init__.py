@@ -1,0 +1,1 @@
+# from lesson9.del_example import Car

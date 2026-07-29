@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<company name="Tech Solutions" founded="2015">
+
+    <departments>
+
+        <department id="D001" name="Development">
+            <manager id="E001">
+                <name>John Smith</name>
+                <email>john.smith@company.com</email>
+            </manager>
+
+            <employees>
+
+                <employee id="E002" position="Backend Developer" salary="4500">
+                    <name>Alice Johnson</name>
+                    <age>29</age>
+                    <skills>
+                        <skill>Python</skill>
+                        <skill>Django</skill>
+                        <skill>PostgreSQL</skill>
+                    </skills>
+                </employee>
+
+                <employee id="E003" position="Frontend Developer" salary="4200">
+                    <name>Bob Williams</name>
+                    <age>27</age>
+                    <skills>
+                        <skill>JavaScript</skill>
+                        <skill>React</skill>
+                        <skill>HTML</skill>
+                        <skill>CSS</skill>
+                    </skills>
+                </employee>
+
+            </employees>
+        </department>
+
+        <department id="D002" name="QA">
+
+            <manager id="E004">
+                <name>Emma Brown</name>
+                <email>emma.brown@company.com</email>
+            </manager>
+
+            <employees>
+
+                <employee id="E005" position="QA Engineer" salary="3500">
+                    <name>Michael Davis</name>
+                    <age>31</age>
+                    <skills>
+                        <skill>Python</skill>
+                        <skill>Playwright</skill>
+                        <skill>API Testing</skill>
+                    </skills>
+                </employee>
+
+                <employee id="E006" position="Automation QA" salary="4100">
+                    <name>Sophia Wilson</name>
+                    <age>30</age>
+                    <skills>
+                        <skill>Java</skill>
+                        <skill>Selenium</skill>
+                        <skill>JUnit</skill>
+                    </skills>
+                </employee>
+
+            </employees>
+        </department>
+
+        <department id="D003" name="DevOps">
+
+            <manager id="E007">
+                <name>Daniel Moore</name>
+                <email>daniel.moore@company.com</email>
+            </manager>
+
+            <employees>
+
+                <employee id="E008" position="DevOps Engineer" salary="5000">
+                    <name>Olivia Taylor</name>
+                    <age>33</age>
+                    <skills>
+                        <skill>Docker</skill>
+                        <skill>Kubernetes</skill>
+                        <skill>AWS</skill>
+                    </skills>
+                </employee>
+
+            </employees>
+
+        </department>
+
+    </departments>
+
+    <projects>
+
+        <project id="P001" status="Active">
+            <name>Online Banking</name>
+            <budget currency="USD">150000</budget>
+        </project>
+
+        <project id="P002" status="Completed">
+            <name>CRM System</name>
+            <budget currency="EUR">95000</budget>
+        </project>
+
+        <project id="P003" status="Planning">
+            <name>AI Assistant</name>
+            <budget currency="USD">250000</budget>
+        </project>
+
+    </projects>
+
+</company>
