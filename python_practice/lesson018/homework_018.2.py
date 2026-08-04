@@ -72,15 +72,14 @@ response = requests.get(f"{BASE_URL}/image/{filename}", headers=headers)
 print(f"Статус: {response.status_code}")
 
 if response.status_code == 404:
-    print(f"✓ Файл дійсно видалений!")
+    print(f"Файл дійсно видалений!")
 elif response.status_code == 200:
-    print(f"✗ Помилка! Файл все ще існує на серверу")
+    print(f"Помилка! Файл все ще існує на сервері")
     exit(1)
 else:
-    print(f"✗ Неочікуваний статус код: {response.status_code}")
+    print(f"Неочікуваний статус код: {response.status_code}")
     print(f"Відповідь: {response.json()}")
     exit(1)
 
-print("\n" + "="*60)
+
 print("✓ Тестування завершено успішно!")
-print("="*60)
