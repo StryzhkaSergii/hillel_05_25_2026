@@ -1,87 +1,91 @@
 import requests
-import sys
+from PIL import Image
+import io
 
-BASE_URL = "https://images-api.nasa.gov"
+BASE_URL = "http://127.0.0.1:8080"
 
-# 1. Пошук зображень
-print("=== Крок 1: Пошук зображень ===", flush=True)
-sys.stdout.flush()
+print("="*60)
+print("Клієнтська частина для взаємодії з сервером завантаження")
+print("="*60)
 
-search_url = f"{BASE_URL}/search"
-search_params = {
-    "q": "Curiosity rover Mars",
-    "media_type": "image",
-    "page_size": 20
-}
+# 1. Створюємо тестове зображення
+print("\n[1] Створення тестового зображення...")
+test_image = Image.new('RGB', (200, 200), color='red')
+image_bytes = io.BytesIO()
+test_image.save(image_bytes, format='JPEG')
+image_bytes.seek(0)
 
-response = requests.get(search_url, params=search_params, timeout=10)
-response.raise_for_status()
-print(f"HTTP запит 1: GET {search_url}", flush=True)
-print(f"Статус: {response.status_code}\n", flush=True)
+filename = 'test_image.jpg'
+print(f"✓ Тестове зображення створено: {filename}")
 
-data = response.json()
-items = data["collection"]["items"]
+# 2. POST запит - завантажуємо зображення на сервер
+print(f"\n[2] POST запит до /upload")
+print(f"    Завантажуємо файл: {filename}")
 
-# Витягуємо nasa_id
-nasa_ids = []
-for item in items:
-    nasa_id = item["data"][0]["nasa_id"]
-    nasa_ids.append(nasa_id)
+image_bytes.seek(0)
+files = {'image': (filename, image_bytes, 'image/jpeg')}
+response = requests.post(f"{BASE_URL}/upload", files=files)
 
-print(f"Знайдено {len(nasa_ids)} об'єктів", flush=True)
-print(f"NASA IDs: {nasa_ids[:5]}...\n", flush=True)
+print(f"    Статус: {response.status_code}")
+print(f"    Відповідь: {response.json()}")
 
-# 2. Отримання URL зображень
-print("=== Крок 2: Отримання списків файлів ===", flush=True)
+if response.status_code == 201:
+    upload_response = response.json()
+    image_url = upload_response['image_url']
+    print(f"✓ Зображення успішно завантажено!")
+    print(f"  URL: {image_url}")
+else:
+    print("✗ Помилка при завантаженні")
+    exit(1)
 
-image_urls = []
-request_count = 1
+# 3. GET запит - отримуємо URL зображення
+print(f"\n[3] GET запит до /image/{filename}")
+print(f"    Content-Type: text/plain")
 
-for nasa_id in nasa_ids:
-    asset_url = f"{BASE_URL}/asset/{nasa_id}"
+headers = {'Content-Type': 'text'}
+response = requests.get(f"{BASE_URL}/image/{filename}", headers=headers)
 
-    response = requests.get(asset_url, timeout=10)
-    response.raise_for_status()
-    request_count += 1
-    print(f"HTTP запит {request_count}: GET {asset_url}", flush=True)
-    print(f"Статус: {response.status_code}", flush=True)
+print(f"    Статус: {response.status_code}")
+print(f"    Відповідь: {response.json()}")
 
-    asset_data = response.json()
-    files = asset_data["collection"]["items"]
+if response.status_code == 200:
+    get_response = response.json()
+    retrieved_url = get_response['image_url']
+    print(f"✓ URL успішно отримано!")
+    print(f"  URL: {retrieved_url}")
+else:
+    print("✗ Помилка при отриманні URL")
+    exit(1)
 
-    # Шукаємо .jpg файл
-    for file_item in files:
-        href = file_item["href"]
-        if href.endswith(".jpg"):
-            image_urls.append(href)
-            print(f"Знайдено JPG: {href[:60]}...", flush=True)
-            break
+# 4. DELETE запит - видаляємо зображення з сервера
+print(f"\n[4] DELETE запит до /delete/{filename}")
 
-    # Нам потрібно лише 2 фотографії
-    if len(image_urls) == 2:
-        print("", flush=True)
-        break
+response = requests.delete(f"{BASE_URL}/delete/{filename}")
 
-print(f"\nВсього знайдено {len(image_urls)} JPG-зображень\n", flush=True)
+print(f"    Статус: {response.status_code}")
+print(f"    Відповідь: {response.json()}")
 
-# 3. Завантаження фотографій
-print("=== Крок 3: Завантаження зображень ===", flush=True)
+if response.status_code == 200:
+    delete_response = response.json()
+    print(f"✓ Зображення успішно видалено!")
+    print(f"  Повідомлення: {delete_response['message']}")
+else:
+    print("✗ Помилка при видаленні")
+    exit(1)
 
-for index, url in enumerate(image_urls, start=1):
-    response = requests.get(url, timeout=30)
-    response.raise_for_status()
-    request_count += 1
-    print(f"HTTP запит {request_count}: GET {url[:60]}...", flush=True)
-    print(f"Статус: {response.status_code}", flush=True)
+# 5. Перевіряємо, що файл дійсно видалений
+print(f"\n[5] Перевірка видалення файлу (GET запит)...")
 
-    filename = f"mars_photo{index}.jpg"
+headers = {'Content-Type': 'text'}
+response = requests.get(f"{BASE_URL}/image/{filename}", headers=headers)
 
-    with open(filename, "wb") as file:
-        file.write(response.content)
+if response.status_code == 404:
+    print(f"    Статус: {response.status_code}")
+    print(f"✓ Файл дійсно видалений!")
+else:
+    print(f"    Статус: {response.status_code}")
+    print(f"✗ Файл все ще існує!")
 
-    print(f"✓ {filename} ({len(response.content)} байт)\n", flush=True)
-
-print(f"{'='*50}", flush=True)
-print(f"Готово! Завантажено {len(image_urls)} зображень", flush=True)
-print(f"Всього HTTP запитів: {request_count}", flush=True)
-print(f"{'='*50}", flush=True)
+print("\n" + "="*60)
+print("Тестування завершено успішно!")
+print("="*60)
