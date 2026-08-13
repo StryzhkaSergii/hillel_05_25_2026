@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from ..base import Base
+from core.db.models.base import Base
 
 
 # Визначення моделі даних (таблиці) за допомогою класу

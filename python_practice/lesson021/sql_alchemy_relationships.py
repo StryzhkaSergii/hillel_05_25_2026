@@ -1,7 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-from core.db.base import Base
+from sqlalchemy.orm import sessionmaker
 
 from core.db.models.department import Department
 from core.db.models.employee import Employee
