@@ -1,0 +1,6 @@
+import requests
+
+
+token = requests.post("url/auth",auth=requests.auth.HTTPBasicAuth(username="test_user", password="test_pass"))
+
+{"Authorization":f"Bearer {token.json()['access_token']}"}
