@@ -1,13 +1,13 @@
 import random
 
-import requests
 from faker import Faker
 
 faker = Faker()
 
+
 def test_create_user(flask_controller, sql_lite_cursor):
-    score = random.randint(1,100)
-    data = {"name":faker.name(), "score":score}
+    score = random.randint(1, 100)
+    data = {"name": faker.name(), "score": score}
 
     row_response = flask_controller.create_student(data)
     response = row_response.json()
@@ -20,4 +20,4 @@ def test_create_user(flask_controller, sql_lite_cursor):
     sql_lite_cursor.execute(f'''select id, name, score'''
                             f''' from student where id = {response.get('id')}''')
 
-    user_id, user_name, user_score= sql_lite_cursor.fetchone()
+    user_id, user_name, user_score = sql_lite_cursor.fetchone()
