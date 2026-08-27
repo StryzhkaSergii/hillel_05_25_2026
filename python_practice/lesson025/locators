@@ -1,0 +1,13 @@
+XPath locators
+//button[text()='Sign In']
+//input[@id='signinEmail']
+//input[@id='signinPassword' and @type='password']
+//div[contains(@class, 'modal-footer')]//button[contains(@class, 'btn-primary') and text()='Login']
+//h4[contains(@class, 'modal-title') and text()='Log in']
+
+CSS locators
+input#signinEmail
+input[name='password']
+input.form-control[id='signinEmail']
+button.btn.btn-outline-white.header_signin
+div.form-group > input[id='signinPassword']
