@@ -34,6 +34,9 @@ class InventoryPage(BasePage):
     def get_price(self):
         self.__inventory_item.locator(".inventory_item_price").text_content()
 
-    # def collect_price(self):
-    #     result = []
-    #     for item in self.__inventory_item.:
+    def collect_price(self):
+        result = []
+        for item in self.__inventory_item.all():
+            price = item.locator(".inventory_item_price").inner_text()
+            result.append(float(price.replace("$", "")))
+        return result
