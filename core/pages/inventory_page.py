@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page, expect
 
 from core.pages.base_page import BasePage
@@ -28,12 +29,14 @@ class InventoryPage(BasePage):
     def get_item_price(self, item_name):
         return  self.__select_item(item_name).locator(".inventory_item_price").text_content()
 
+    @allure.step("Sort items")
     def sort_by(self, sorting):
         self.__sorting_select.select_option(sorting)
 
     def get_price(self):
         self.__inventory_item.locator(".inventory_item_price").text_content()
 
+    @allure.step("Collect price")
     def collect_price(self):
         result = []
         for item in self.__inventory_item.all():
